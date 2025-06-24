@@ -31,7 +31,6 @@ export const OrganicBackground: FC<OrganicBackgroundProps> = ({
   const mouseRef = useRef({ x: 0, y: 0 });
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
-  // Configuración corregida - siempre crear 5 círculos móviles + 1 interactivo
   const intensityConfig = {
     low: { movingCircles: 3, speedMultiplier: 0.5, radiusMultiplier: 0.15 },
     medium: { movingCircles: 4, speedMultiplier: 1.0, radiusMultiplier: 0.2 },
@@ -40,7 +39,6 @@ export const OrganicBackground: FC<OrganicBackgroundProps> = ({
 
   const config = intensityConfig[intensity];
 
-  // Convert hex colors to RGB arrays
   const convertColors = (hexColors: string[]): [number, number, number][] => {
     return hexColors.map(hex => {
       const r = parseInt(hex.slice(1, 3), 16) / 255;
@@ -60,7 +58,6 @@ export const OrganicBackground: FC<OrganicBackgroundProps> = ({
     }
   `;
 
-  // Fragment shader modificado para usar solo los colores que recibe el componente
   const fragmentShaderSource = `
     precision mediump float;
     varying vec2 v_uv;
@@ -75,7 +72,6 @@ export const OrganicBackground: FC<OrganicBackgroundProps> = ({
     void main(void) {
       vec2 st = v_uv * u_resolution;
       
-      // Background usando uno de los colores que recibe el componente
       vec3 bgColor = u_bgColor;
       
       float fieldSum = 0.0;
@@ -157,7 +153,6 @@ export const OrganicBackground: FC<OrganicBackgroundProps> = ({
     programRef.current = program;
     gl.useProgram(program);
 
-    // Create quad buffer
     const quadBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
     const vertices = new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]);
@@ -197,8 +192,7 @@ export const OrganicBackground: FC<OrganicBackgroundProps> = ({
       });
     }
 
-    // Interactive circle (SIEMPRE crear, como en el ejemplo)
-    const interactiveRadius = (dimensions.width + dimensions.height) * 0.1; // Igual que el ejemplo
+    const interactiveRadius = (dimensions.width + dimensions.height) * 0.1;
     circles.push({
       x: dimensions.width / 2,
       y: dimensions.height / 2,
@@ -246,7 +240,6 @@ export const OrganicBackground: FC<OrganicBackgroundProps> = ({
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.useProgram(program);
 
-    // Update uniforms
     const u_resolution = gl.getUniformLocation(program, 'u_resolution');
     const u_circleCount = gl.getUniformLocation(program, 'u_circleCount');
     const u_circlesColor = gl.getUniformLocation(program, 'u_circlesColor');
@@ -289,7 +282,6 @@ export const OrganicBackground: FC<OrganicBackgroundProps> = ({
     animationRef.current = requestAnimationFrame(render);
   };
 
-  // Handle mouse movement
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const canvas = canvasRef.current;
@@ -332,7 +324,6 @@ export const OrganicBackground: FC<OrganicBackgroundProps> = ({
     };
   }, []);
 
-  // Initialize WebGL and start animation
   useEffect(() => {
     if (dimensions.width === 0 || dimensions.height === 0) return;
 

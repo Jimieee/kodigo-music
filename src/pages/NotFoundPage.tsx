@@ -36,7 +36,7 @@ const NotFoundPage: FC = () => {
           </div>
 
           <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-3 sm:mb-4">
-            Track Not Found
+            Page Not Found
           </h1>
           <p className="text-muted-foreground text-base sm:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed px-4">
             The page you're looking for seems to have been removed from your library or moved to a different playlist.
