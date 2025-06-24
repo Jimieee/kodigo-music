@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+@import "./components.css";
+@theme {
+  --content: "./index.html", "./src/**/*.{js,ts,jsx,tsx}";
+
+  --color-background: hsl(0 0% 8%);
+  --color-foreground: hsl(0 0% 98%);
+  --color-card: hsl(0 0% 12%);
+  --color-card-foreground: hsl(0 0% 98%);
+  --color-primary: hsl(0 84% 60%);
+  --color-primary-foreground: hsl(0 0% 98%);
+  --color-secondary: hsl(0 0% 16%);
+  --color-secondary-foreground: hsl(0 0% 98%);
+  --color-muted: hsl(0 0% 16%);
+  --color-muted-foreground: hsl(0 0% 65%);
+  --color-accent: hsl(0 0% 16%);
+  --color-accent-foreground: hsl(0 0% 98%);
+  --color-border: hsl(0 0% 20%);
+  --color-input: hsl(0 0% 16%);
+  --color-ring: hsl(0 84% 60%);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --font-poppins: 'Poppins', 'sans-serif';
+}
+
+:root {
+  --radius: 0.5rem;
+}
+
+@layer utilities {
+  .swiper-button-disabled,
+  .swiper-button-lock {
+    @apply opacity-0 pointer-events-none;
+  }
+
+  .bg-background {
+    background-color: var(--color-background);
+  }
+
+  .text-foreground {
+    color: var(--color-foreground);
+  }
+
+  .bg-card {
+    background-color: var(--color-card);
+  }
+
+  .text-card-foreground {
+    color: var(--color-card-foreground);
+  }
+
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+
+  .text-primary-foreground {
+    color: var(--color-primary-foreground);
+  }
+
+  .bg-secondary {
+    background-color: var(--color-secondary);
+  }
+
+  .text-secondary-foreground {
+    color: var(--color-secondary-foreground);
+  }
+
+  .bg-muted {
+    background-color: var(--color-muted);
+  }
+
+  .text-muted-foreground {
+    color: var(--color-muted-foreground);
+  }
+
+  .bg-accent {
+    background-color: var(--color-accent);
+  }
+
+  .text-accent-foreground {
+    color: var(--color-accent-foreground);
+  }
+
+  .border-border {
+    border-color: var(--color-border);
+  }
+
+  .bg-input {
+    background-color: var(--color-input);
+  }
+
+  .ring-ring {
+    --tw-ring-color: var(--color-ring);
+  }
+
+  .rounded-lg {
+    border-radius: var(--radius-lg);
+  }
+
+  .rounded-md {
+    border-radius: var(--radius-md);
+  }
+
+  .rounded-sm {
+    border-radius: var(--radius-sm);
+  }
+}

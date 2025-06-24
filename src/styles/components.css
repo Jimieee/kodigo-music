@@ -1,0 +1,7 @@
+img {
+  contain: layout;
+}
+
+::view-transition-image-pair(song-image-*) {
+  animation-duration: 0.5s;
+}
