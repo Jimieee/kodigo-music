@@ -85,7 +85,7 @@ src
 ### Installation
 
 ```bash
-git clone https://github.com/<your-user>/kodigo-music.git
+git clone https://github.com/Jimieee/kodigo-music.git
 cd kodigo-music
 npm install            # or pnpm install / yarn
 ```
