@@ -7,7 +7,7 @@ export const useAudioPlayer = () => {
   const howlRef = useRef<Howl | null>(null);
   const shouldPlayRef = useRef<boolean>(false);
   const isSeekingRef = useRef<boolean>(false);
-  const seekTimeoutRef = useRef<number | null>(null);
+  const seekTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const {
     isPlaying,
