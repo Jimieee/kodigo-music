@@ -172,12 +172,11 @@ export const OrganicBackground: FC<OrganicBackgroundProps> = ({
     const circles: Circle[] = [];
     const baseRadius = (dimensions.width + dimensions.height) * config.radiusMultiplier;
 
-    // Create moving circles (basado en el ejemplo)
     for (let i = 0; i < config.movingCircles; i++) {
       const radius = baseRadius;
       const x = Math.random() * dimensions.width;
       const y = Math.random() * dimensions.height;
-      const speedMultiplier = Math.random() * 4 + 1; // Similar al ejemplo
+      const speedMultiplier = Math.random() * 4 + 1;
       const vx = (Math.random() - 0.5) * config.speedMultiplier * speedMultiplier;
       const vy = (Math.random() - 0.5) * config.speedMultiplier * speedMultiplier;
 
@@ -214,13 +213,11 @@ export const OrganicBackground: FC<OrganicBackgroundProps> = ({
         circle.x += circle.vx;
         circle.y += circle.vy;
 
-        // Wrap around screen
         if (circle.x - circle.radius > dimensions.width) circle.x = -circle.radius;
         if (circle.x + circle.radius < 0) circle.x = dimensions.width + circle.radius;
         if (circle.y - circle.radius > dimensions.height) circle.y = -circle.radius;
         if (circle.y + circle.radius < 0) circle.y = dimensions.height + circle.radius;
       } else {
-        // Smooth mouse following (ajustado para ser más responsivo como el ejemplo)
         circle.x += (mouseRef.current.x - circle.x) * 0.1;
         circle.y += (mouseRef.current.y - circle.y) * 0.1;
       }
@@ -253,13 +250,11 @@ export const OrganicBackground: FC<OrganicBackgroundProps> = ({
     gl.uniform2f(u_mouse, mouseRef.current.x, mouseRef.current.y);
     gl.uniform1i(u_isPlaying, isPlaying ? 1 : 0);
 
-    // Usar el primer color como fondo (más oscuro)
     const rgbColors = convertColors(colors);
     const bgColor = rgbColors[0];
-    const darkerBgColor = [bgColor[0] * 0.3, bgColor[1] * 0.3, bgColor[2] * 0.3]; // Más oscuro
+    const darkerBgColor = [bgColor[0] * 0.3, bgColor[1] * 0.3, bgColor[2] * 0.3];
     gl.uniform3f(u_bgColor, darkerBgColor[0], darkerBgColor[1], darkerBgColor[2]);
 
-    // Prepare circle data
     const colorsArr: number[] = [];
     const posRadArr: number[] = [];
 
@@ -301,7 +296,6 @@ export const OrganicBackground: FC<OrganicBackgroundProps> = ({
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Handle resize
   useEffect(() => {
     const updateDimensions = () => {
       const canvas = canvasRef.current;
