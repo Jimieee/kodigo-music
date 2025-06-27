@@ -1,11 +1,10 @@
 import { Button } from "../ui/Button";
-import { SkipBack, SkipForward, Play, Pause, Volume2, Music, User, Maximize2 } from 'lucide-react';
-import type { FC } from "react";
+import { SkipBack, SkipForward, Play, Pause, Volume2, Music, Maximize2 } from 'lucide-react';
 import { cn } from "../../utils/cn";
 import type { CurrentSong } from "../../types/music";
 import { formatTime } from "../../utils/time";
-import { useSignInModal } from "../../hooks/useSignInModal";
-import { SignInModal } from "./SignInModal";
+import UserProfile from "./UserProfile";
+import type { FC } from "react";
 
 interface TopBarProps {
   onTogglePlay: () => void;
@@ -30,7 +29,6 @@ const TopBar: FC<TopBarProps> = ({
   onNext,
   onPrevious
 }) => {
-  const { isModalOpen, openModal, closeModal } = useSignInModal();
 
   return (
     <>
@@ -210,14 +208,9 @@ const TopBar: FC<TopBarProps> = ({
               />
             </label>
           </fieldset>
-          <Button className="cursor-pointer" variant="primary" size="sm" onClick={openModal}>
-            <User className="h-4 w-4 mr-2" aria-hidden="true" />
-            Sign In
-          </Button>
+          <UserProfile variant="desktop" />
         </section>
       </header>
-
-      <SignInModal isOpen={isModalOpen} onClose={closeModal} />
     </>
   );
 };

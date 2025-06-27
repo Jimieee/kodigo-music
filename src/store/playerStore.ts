@@ -79,15 +79,13 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     let nextIndex = -1;
     
     if (isShuffleEnabled && playlist.length > 1) {
-      // Modo shuffle: selecciona una canción aleatoria diferente a la actual
       do {
         nextIndex = Math.floor(Math.random() * playlist.length);
       } while (nextIndex === currentIndex);
     } else {
-      // Modo normal: siguiente canción
       nextIndex = currentIndex + 1;
       if (nextIndex >= playlist.length) {
-        nextIndex = 0; // Volver al inicio si llegamos al final
+        nextIndex = 0;
       }
     }
     
@@ -111,15 +109,13 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     let prevIndex = -1;
     
     if (isShuffleEnabled && playlist.length > 1) {
-      // En modo shuffle, selecciona una canción aleatoria diferente
       do {
         prevIndex = Math.floor(Math.random() * playlist.length);
       } while (prevIndex === currentIndex);
     } else {
-      // Modo normal: canción anterior
       prevIndex = currentIndex - 1;
       if (prevIndex < 0) {
-        prevIndex = playlist.length - 1; // Ir al final si estamos al inicio
+        prevIndex = playlist.length - 1;
       }
     }
     
@@ -174,12 +170,10 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
 
   setHowlInstance: (howl: Howl | null) => set({ howlInstance: howl }),
 
-  // Nueva función para manejar cuando termina una canción
   onSongEnd: () => {
     const { playlist, currentIndex, repeatMode, isShuffleEnabled } = get();
     
     if (repeatMode === 'one') {
-      // Reinicia la canción actual
       set({ currentTime: 0, isPlaying: true });
       if (typeof window !== "undefined" && window.__handleSeek) {
         window.__handleSeek(0);
@@ -187,20 +181,16 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       return;
     }
     
-    // Determinar la siguiente canción
     let nextIndex = -1;
     
     if (isShuffleEnabled && playlist.length > 1) {
-      // Modo shuffle: selecciona una canción aleatoria diferente a la actual
       do {
         nextIndex = Math.floor(Math.random() * playlist.length);
       } while (nextIndex === currentIndex && playlist.length > 1);
     } else {
-      // Modo normal: siguiente canción
       nextIndex = currentIndex + 1;
     }
     
-    // Verificar si hay siguiente canción
     if (nextIndex < playlist.length && nextIndex >= 0) {
       const nextSong = playlist[nextIndex];
       set({
@@ -213,7 +203,6 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
         isLoading: true,
       });
     } else if (repeatMode === 'all' && playlist.length > 0) {
-      // Repeat all: volver al inicio
       const firstSong = playlist[0];
       set({
         currentSong: firstSong,
@@ -225,7 +214,6 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
         isLoading: true,
       });
     } else {
-      // No hay más canciones y no está en repeat all
       set({ 
         isPlaying: false,
         currentTime: 0

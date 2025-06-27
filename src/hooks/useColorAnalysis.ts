@@ -1,4 +1,3 @@
-// useColorAnalysis.ts
 import { useState, useEffect } from "react";
 import { Vibrant } from "node-vibrant/browser";
 import type { Palette, Swatch } from "@vibrant/color";

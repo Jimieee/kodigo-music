@@ -1,7 +1,7 @@
 {
   "name": "kodigo-music",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.2",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 5173",
@@ -12,9 +12,10 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.10",
     "@types/howler": "^2.2.12",
-    "canvas": "^3.1.1",
+    "@vibrant/color": "^4.0.0",
     "canvas-confetti": "^1.9.3",
     "clsx": "^2.1.1",
+    "firebase": "^11.9.1",
     "howler": "^2.2.4",
     "lucide-react": "^0.518.0",
     "node-vibrant": "^4.0.3",

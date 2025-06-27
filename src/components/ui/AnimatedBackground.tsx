@@ -97,7 +97,6 @@ export const OrganicBackground: FC<OrganicBackgroundProps> = ({
         finalCirclesColor = weightedColorSum / fieldSum;
       }
       
-      // Usar solo los colores de los círculos sin mezclar con colores hardcodeados
       float intensity = pow(fieldSum, 1.4);
       vec3 finalColor = mix(bgColor, finalCirclesColor, clamp(intensity, 0.0, 1.0));
       

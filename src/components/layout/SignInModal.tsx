@@ -25,7 +25,7 @@ export const SignInModal: FC<SignInModalProps> = ({ isOpen, onClose }) => {
       <div className="relative w-full max-w-md mx-4 bg-card rounded-lg shadow-2xl border border-border animate-in fade-in-0 zoom-in-95 duration-300">
         <div className="flex items-center justify-between p-6 border-b border-border">
           <h2 className="text-xl font-semibold text-foreground">
-            Sign In
+            Kodigo Music
           </h2>
           <Button
             variant="ghost"

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-{/* TODO: consolidate modal handling into a single hook (useModal) */}
 export const useSignInModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 

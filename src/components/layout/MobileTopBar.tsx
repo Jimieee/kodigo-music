@@ -1,10 +1,9 @@
 import type { FC } from "react";
 import { Button } from "../ui/Button";
-import { Menu, User } from "lucide-react";
+import { Menu } from "lucide-react";
 import logo from '../../assets/images/logo.webp';
 import { Link } from "react-router-dom";
-import { useSignInModal } from "../../hooks/useSignInModal";
-import { SignInModal } from "./SignInModal";
+import UserProfile from "./UserProfile";
 
 interface MobileTopBarProps {
   onMenuToggle: () => void;
@@ -13,7 +12,6 @@ interface MobileTopBarProps {
 const MobileTopBar: FC<MobileTopBarProps> = ({
   onMenuToggle,
 }) => {
-  const { isModalOpen, openModal, closeModal } = useSignInModal();
 
   return (
     <>
@@ -37,12 +35,11 @@ const MobileTopBar: FC<MobileTopBarProps> = ({
           </Link>
         </div>
 
-        <Button onClick={openModal} variant="ghost" size="sm" className="w-10 h-10 p-0 cursor-pointer">
-          <User className="h-4 w-4 cursor-pointer" />
-        </Button>
+        <UserProfile
+          variant="mobile"
+          showDropdownIcon={false}
+        />
       </header>
-
-      <SignInModal isOpen={isModalOpen} onClose={closeModal} />
     </>
   );
 };
