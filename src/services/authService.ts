@@ -90,15 +90,6 @@ export const signInWithGoogle = async (): Promise<AuthResult> => {
 
     return createSuccessResult(userCredential.user);
   } catch (error) {
-    if (isFirebaseError(error) && error.code === "auth/popup-closed-by-user") {
-      return {
-        success: false,
-        error: {
-          code: "popup-cancelled",
-          message: "Sign in cancelled",
-        },
-      };
-    }
     return handleAuthError(error);
   }
 };
