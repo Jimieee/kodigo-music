@@ -25,15 +25,21 @@ export interface SignInData {
   password: string;
 }
 
-export interface AuthError {
-  code: string;
+export interface AuthMessage {
+  title: string;
   message: string;
+  type: 'error' | 'warning' | 'info' | 'success';
+}
+
+export interface AuthError extends AuthMessage {
+  code: string;
 }
 
 export interface AuthResult {
   success: boolean;
   user?: AuthUser;
   error?: AuthError;
+  message?: AuthMessage;
 }
 
 export const mapFirebaseUser = (firebaseUser: FirebaseUser): AuthUser => ({
@@ -53,4 +59,4 @@ export function isFirebaseError(error: unknown): error is AuthError {
     "message" in error &&
     typeof (error as Record<string, unknown>).message === "string"
   );
-};
+}

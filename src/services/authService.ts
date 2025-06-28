@@ -19,32 +19,56 @@ import type {
   AuthUser,
 } from "../types/auth";
 import { isFirebaseError, mapFirebaseUser } from "../types/auth";
+import {
+  getAuthErrorMessage,
+  getAuthSuccessMessage,
+} from "../utils/authErrorMessages";
 
 const handleAuthError = (error: unknown): AuthResult => {
   if (isFirebaseError(error)) {
+    const friendlyError = getAuthErrorMessage(error.code);
     return {
       success: false,
       error: {
         code: error.code,
-        message: error.message,
+        message: friendlyError.message,
+        title: friendlyError.title,
+        type: friendlyError.type,
       },
     };
   }
 
+  const unknownError = getAuthErrorMessage("unknown-error");
   return {
     success: false,
     error: {
       code: "unknown-error",
-      message: "An unknown error occurred",
+      message: unknownError.message,
+      title: unknownError.title,
+      type: unknownError.type,
     },
   };
 };
 
-const createSuccessResult = (firebaseUser: FirebaseUser): AuthResult => {
-  return {
+const createSuccessResult = (
+  firebaseUser: FirebaseUser,
+  action?: string
+): AuthResult => {
+  const result: AuthResult = {
     success: true,
     user: mapFirebaseUser(firebaseUser),
   };
+
+  if (action) {
+    const successMessage = getAuthSuccessMessage(action);
+    result.message = {
+      title: successMessage.title,
+      message: successMessage.message,
+      type: successMessage.type,
+    };
+  }
+
+  return result;
 };
 
 export const signUp = async (data: SignUpData): Promise<AuthResult> => {
@@ -63,7 +87,7 @@ export const signUp = async (data: SignUpData): Promise<AuthResult> => {
 
     await sendEmailVerification(userCredential.user);
 
-    return createSuccessResult(userCredential.user);
+    return createSuccessResult(userCredential.user, "signup");
   } catch (error) {
     return handleAuthError(error);
   }
@@ -77,7 +101,7 @@ export const signIn = async (data: SignInData): Promise<AuthResult> => {
       data.password
     );
 
-    return createSuccessResult(userCredential.user);
+    return createSuccessResult(userCredential.user, "signin");
   } catch (error) {
     return handleAuthError(error);
   }
@@ -86,9 +110,10 @@ export const signIn = async (data: SignInData): Promise<AuthResult> => {
 export const signInWithGoogle = async (): Promise<AuthResult> => {
   try {
     const provider = new GoogleAuthProvider();
+
     const userCredential = await signInWithPopup(auth, provider);
 
-    return createSuccessResult(userCredential.user);
+    return createSuccessResult(userCredential.user, "google-signin");
   } catch (error) {
     return handleAuthError(error);
   }
@@ -97,7 +122,15 @@ export const signInWithGoogle = async (): Promise<AuthResult> => {
 export const signOutUser = async (): Promise<AuthResult> => {
   try {
     await signOut(auth);
-    return { success: true };
+    const successMessage = getAuthSuccessMessage("signout");
+    return {
+      success: true,
+      message: {
+        title: successMessage.title,
+        message: successMessage.message,
+        type: successMessage.type,
+      },
+    };
   } catch (error) {
     return handleAuthError(error);
   }
@@ -106,7 +139,15 @@ export const signOutUser = async (): Promise<AuthResult> => {
 export const resetPassword = async (email: string): Promise<AuthResult> => {
   try {
     await sendPasswordResetEmail(auth, email);
-    return { success: true };
+    const successMessage = getAuthSuccessMessage("password-reset");
+    return {
+      success: true,
+      message: {
+        title: successMessage.title,
+        message: successMessage.message,
+        type: successMessage.type,
+      },
+    };
   } catch (error) {
     return handleAuthError(error);
   }
@@ -118,17 +159,20 @@ export const updateUserProfile = async (data: {
 }): Promise<AuthResult> => {
   try {
     if (!auth.currentUser) {
+      const noUserError = getAuthErrorMessage("no-current-user");
       return {
         success: false,
         error: {
           code: "no-current-user",
-          message: "No user is currently signed in",
+          message: noUserError.message,
+          title: noUserError.title,
+          type: noUserError.type,
         },
       };
     }
 
     await updateProfile(auth.currentUser, data);
-    return createSuccessResult(auth.currentUser);
+    return createSuccessResult(auth.currentUser, "profile-update");
   } catch (error) {
     return handleAuthError(error);
   }
@@ -137,17 +181,28 @@ export const updateUserProfile = async (data: {
 export const sendVerificationEmail = async (): Promise<AuthResult> => {
   try {
     if (!auth.currentUser) {
+      const noUserError = getAuthErrorMessage("no-current-user");
       return {
         success: false,
         error: {
           code: "no-current-user",
-          message: "No user is currently signed in",
+          message: noUserError.message,
+          title: noUserError.title,
+          type: noUserError.type,
         },
       };
     }
 
     await sendEmailVerification(auth.currentUser);
-    return { success: true };
+    const successMessage = getAuthSuccessMessage("email-verification");
+    return {
+      success: true,
+      message: {
+        title: successMessage.title,
+        message: successMessage.message,
+        type: successMessage.type,
+      },
+    };
   } catch (error) {
     return handleAuthError(error);
   }

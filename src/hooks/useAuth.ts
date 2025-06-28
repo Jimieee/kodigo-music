@@ -5,7 +5,7 @@ import {
   useIsAuthenticated,
   useAuthLoading,
 } from "../store/authStore";
-import type { SignUpData, SignInData } from "../types/auth";
+import type { SignUpData, SignInData, AuthResult } from "../types/auth";
 import toast from "react-hot-toast";
 
 export const useAuth = () => {
@@ -36,65 +36,45 @@ export const useAuth = () => {
     };
   }, [initializeAuth]);
 
+  const showToast = (result: AuthResult) => {
+    if (result.success) {
+      if (result.message) {
+        toast.success(result.message.message);
+      }
+    } else {
+      if (result.error) {
+        toast.error(result.error.message);
+      }
+    }
+  };
+
   const handleSignUp = async (data: SignUpData) => {
     const result = await signUp(data);
-
-    if (result.success) {
-      toast.success(
-        "Account created successfully! Please check your email for verification."
-      );
-    } else {
-      toast.error(result.error?.message || "Failed to create account");
-    }
-
+    showToast(result);
     return result;
   };
 
   const handleSignIn = async (data: SignInData) => {
     const result = await signIn(data);
-
-    if (result.success) {
-      toast.success("Welcome back!");
-    } else {
-      toast.error(result.error?.message || "Failed to sign in");
-    }
-
+    showToast(result);
     return result;
   };
 
   const handleSignInWithGoogle = async () => {
     const result = await signInWithGoogle();
-
-    if (result.success) {
-      toast.success("Welcome!");
-    } else {
-      toast.error(result.error?.message || "Failed to sign in with Google");
-    }
-
+    showToast(result);
     return result;
   };
 
   const handleSignOut = async () => {
     const result = await signOut();
-
-    if (result.success) {
-      toast.success("Signed out successfully");
-    } else {
-      toast.error(result.error?.message || "Failed to sign out");
-    }
-
+    showToast(result);
     return result;
   };
 
   const handleResetPassword = async (email: string) => {
     const result = await resetPassword(email);
-
-    if (result.success) {
-      toast.success("Password reset email sent! Check your inbox.");
-    } else {
-      toast.error(result.error?.message || "Failed to send reset email");
-    }
-
+    showToast(result);
     return result;
   };
 
@@ -103,25 +83,13 @@ export const useAuth = () => {
     photoURL?: string;
   }) => {
     const result = await updateProfile(data);
-
-    if (result.success) {
-      toast.success("Profile updated successfully");
-    } else {
-      toast.error(result.error?.message || "Failed to update profile");
-    }
-
+    showToast(result);
     return result;
   };
 
   const handleSendVerificationEmail = async () => {
     const result = await sendVerificationEmail();
-
-    if (result.success) {
-      toast.success("Verification email sent! Check your inbox.");
-    } else {
-      toast.error(result.error?.message || "Failed to send verification email");
-    }
-
+    showToast(result);
     return result;
   };
 
